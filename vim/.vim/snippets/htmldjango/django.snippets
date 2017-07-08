@@ -1,0 +1,6 @@
+snippet {{
+	{{ ${1} }}
+snippet %
+	{% ${1} %}
+snippet extends
+	{% extends ${1:base}.`fnamemodify(@%, ':e')` %}

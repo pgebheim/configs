@@ -1,0 +1,15 @@
+gitalias stage='git add'
+gitalias review='git log -p --max-count=1'
+gitalias apply='git stash apply'
+gitalias co='git checkout'
+gitalias st='git st'
+gitalias current='git current'
+gitalias cur='git current'
+gitalias push-current='git push origin `git current`'
+gitalias pushc='git push origin `git current`'
+gitalias pullc='git pull origin `git current`'
+gitalias prc='git pull --rebase origin `git current`'
+gitalias rm='rm'
+gitalias branch='git branch -v'
+
+. ~/.bash_profile

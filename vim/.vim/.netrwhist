@@ -1,0 +1,11 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =9
+let g:netrw_dirhist_1='/Users/pgebheim/Development'
+let g:netrw_dirhist_2='/Users/pgebheim/Development/Magic'
+let g:netrw_dirhist_3='/Users/pgebheim/Development'
+let g:netrw_dirhist_4='/Users/pgebheim/Development/OrgasmForce-Production'
+let g:netrw_dirhist_5='/Users/pgebheim/Development/OrgasmForce-Production/src'
+let g:netrw_dirhist_6='/Users/pgebheim/Development/OrgasmForce-Production/src/staticresources'
+let g:netrw_dirhist_7='/Users/pgebheim/Development/OrgasmForce-Production/src'
+let g:netrw_dirhist_8='/Users/pgebheim/Development/OrgasmForce-Production/src/pages'
+let g:netrw_dirhist_9='/Users/pgebheim/Development/website/src/server/apps/course-purchases/models'

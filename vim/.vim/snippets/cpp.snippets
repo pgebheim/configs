@@ -1,0 +1,32 @@
+# Read File Into Vector
+# std::map
+snippet map
+	std::map<${1:key}, ${2:value}> map${3};
+# std::vector
+snippet vector
+	std::vector<${1:char}> v${2};
+
+snippet dc<
+	dynamic_cast<${1:type}>(${1:var})
+snippet cc<
+	const_cast<${1:type}>(${1:var})
+snippet rc<
+	reinterpret_cast<${1:type}>(${1:var})
+snippet sc<
+	static_cast<${1:type}>(${1:var})
+
+# Namespace
+snippet ns
+	namespace ${1:name} {
+		${2}
+	} /* $1 */
+# Class
+snippet cl
+	class ${1:name} {
+	public:
+		$1 (${2:arguments});
+		virtual ~$1 ();
+	
+	private:
+		${3:/* data */}
+	};
