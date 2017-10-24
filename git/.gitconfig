@@ -2,7 +2,7 @@
 	name = Paul Gebheim
 	email = paul@onetaste.us
 [core]
-	editor = /usr/local/bin/vim
+	editor = vim
 	excludesfile = /Users/pgebheim/.gitignore_global
 [alias]
 	lg = log --graph --pretty=oneline --abbrev-commit --decorate
@@ -55,8 +55,10 @@
 	insteadOf = me:
 	insteadOf = pg:
 	insteadOf = pgebheim:
+[url "git@github.com:AugurProject/"]
+  insteadOf = augur:
 [credential]
-	helper = osxkeychain
+	helper = ssh-agent
 [filter "media"]
 	clean = git-media-clean %f
 	smudge = git-media-smudge %f
@@ -68,3 +70,5 @@
 	trustExitCode = true
 [difftool]
 	prompt = false
+[url "ssh://git@heroku.com/"]
+	insteadOf = https://git.heroku.com/

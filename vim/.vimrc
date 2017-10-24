@@ -15,49 +15,53 @@ if has('vim_starting')
   set runtimepath+=~/.vim/bundle/neobundle.vim/
 endif
 
-let g:ctrlp_map='<Leader>t'
-
-call neobundle#rc(expand('~/.vim/bundle/'))
+call neobundle#begin(expand('~/.vim/bundle/'))
 
 " https://github.com/Shougo/neobundle.vim
 "  " Let NeoBundle manage NeoBundle
 NeoBundleFetch 'Shougo/neobundle.vim'
 
+NeoBundle 'christoomey/vim-tmux-navigator'
 NeoBundle 'ervandew/supertab'
 NeoBundle 'altercation/vim-colors-solarized.git'
 NeoBundle 'gregsexton/gitv.git'
 NeoBundle 'tpope/vim-fugitive'
+NeoBundle 'mattn/webapi-vim'
+NeoBundle 'mattn/gist-vim'
 NeoBundle 'tpope/vim-characterize'
 NeoBundle 'bling/vim-airline'
 NeoBundle 'kchmck/vim-coffee-script.git'
-NeoBundle 'kien/ctrlp.vim.git'
-NeoBundle 'kevinw/pyflakes-vim'
 NeoBundle 'jamessan/vim-gnupg'
-"NeoBundle 'vim-scripts/YankRing.vim'
 NeoBundle 'digitaltoad/vim-jade'
+NeoBundle 'mileszs/ack.vim'
 NeoBundle 'leafgarland/typescript-vim'
-NeoBundle 'Shougo/vimproc.vim', {
-\ 'build' : {
-\     'windows' : 'tools\\update-dll-mingw',
-\     'cygwin' : 'make -f make_cygwin.mak',
-\     'mac' : 'make -f make_mac.mak',
-\     'linux' : 'make',
-\     'unix' : 'gmake',
-\    },
-\ }
+NeoBundle 'jason0x43/vim-js-indent'
+NeoBundle 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' }
+NeoBundle 'junegunn/fzf.vim'
+NeoBundle 'prettier/vim-prettier', {
+  \ 'do': 'yarn install',
+  \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql'] }
 
-NeoBundleLazy 'vim-ruby/vim-ruby.git',       { 'autoload' : { 'filetypes' :[ "ruby"], }, }
+NeoBundle 'Shougo/vimproc.vim', {
+      \ 'build' : {
+      \     'windows' : 'tools\\update-dll-mingw',
+      \     'cygwin' : 'make -f make_cygwin.mak',
+      \     'mac' : 'make -f make_mac.mak',
+      \     'linux' : 'make',
+      \     'unix' : 'gmake',
+      \    },
+      \ }
+
 NeoBundle 'Quramy/tsuquyomi'
+
+call neobundle#end()
 NeoBundleCheck
 
 " =================== Plugin Config ================
-if exists(":CtrlP")
-  noremap <leader>b :CtrlPBuffer<CR>
-endif
-
 let do_syntax_sel_menu = 1 " Show the languages in the syntax menu by default
 
 " =================== General Config ================
+set mouse=a
 set nowrap
 set go=grtbLmet "no toolbar/menu gmrbLetT for menu
 set smartcase
@@ -120,7 +124,7 @@ elseif ($COLORFGBG) == "12;8"  " solarized theme
   colorscheme solarized
   let g:airline_theme='solarized'
 else
-    colorscheme default
+    colorscheme torte
 endif
 
 
@@ -139,6 +143,7 @@ inoremap <S-Tab> <ESC><<i
 nnoremap j gj
 nnoremap k gk
 nnoremap K i<CR><Esc>
+inoremap <C-s> <Esc>
 
 runtime macros/matchit.vim
 " filetype settings
@@ -156,8 +161,6 @@ augroup END
 
 augroup filetypes
   autocmd!
-  au FileType c,cpp,haxe,javascript,clojure,python,perl,java,html,xml,scons  call SuperTabSetCompletionType("<C-X><C-O>")
-  au FileType actionscript call SuperTabSetCompletionType("<C-X><C-P>")
 
   au BufRead,BufNewFile *.vhost set ft=nginx
   au FileType vim set sw=2 ts=2
@@ -201,6 +204,47 @@ set incsearch scs hls
 nnoremap <c-cr> :noh<CR>
 nnoremap <leader><space> :noh<CR>
 nnoremap <leader><leader> :noh<CR>
+
+function! s:buflist()
+  redir => ls
+  silent ls
+  redir END
+  return split(ls, '\n')
+endfunction
+
+function! s:bufopen(e)
+  execute 'buffer' matchstr(a:e, '^[ 0-9]*')
+endfunction
+
+if executable('ag')
+  let g:ackprg = 'ag --nogroup --nocolor --column'
+endif
+
+
+let $FZF_DEFAULT_COMMAND= 'ag -g ""'
+nnoremap <silent> <Leader>b :call fzf#run({
+\   'source':  reverse(<sid>buflist()),
+\   'sink':    function('<sid>bufopen'),
+\   'options': '+m',
+\   'down':    len(<sid>buflist()) + 2
+\ })<CR>
+nnoremap <leader>t :FZF<CR>
+nnoremap <leader>s :Tags<CR>
+nnoremap <leader>cs :BTags<CR>
+
+" [Buffers] Jump to the existing window if possible
+let g:fzf_buffers_jump = 1
+
+" [[B]Commits] Customize the options used by 'git log':
+let g:fzf_commits_log_options = '--graph --color=always --format="%C(auto)%h%d %s %C(black)%C(bold)%cr"'
+
+" [Tags] Command to generate tags file
+set tags=./tags;
+let g:fzf_tags_command = 'ctags -R'
+
+" [Commands] --expect expression for directly executing the command
+let g:fzf_commands_expect = 'alt-enter,ctrl-x'
+imap <c-x><c-f> <plug>(fzf-complete-path)
 
 " yank and paste from system buffer
 noremap <leader>p "+p

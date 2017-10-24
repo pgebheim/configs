@@ -1,11 +1,5 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =9
-let g:netrw_dirhist_1='/Users/pgebheim/Development'
-let g:netrw_dirhist_2='/Users/pgebheim/Development/Magic'
-let g:netrw_dirhist_3='/Users/pgebheim/Development'
-let g:netrw_dirhist_4='/Users/pgebheim/Development/OrgasmForce-Production'
-let g:netrw_dirhist_5='/Users/pgebheim/Development/OrgasmForce-Production/src'
-let g:netrw_dirhist_6='/Users/pgebheim/Development/OrgasmForce-Production/src/staticresources'
-let g:netrw_dirhist_7='/Users/pgebheim/Development/OrgasmForce-Production/src'
-let g:netrw_dirhist_8='/Users/pgebheim/Development/OrgasmForce-Production/src/pages'
-let g:netrw_dirhist_9='/Users/pgebheim/Development/website/src/server/apps/course-purchases/models'
+let g:netrw_dirhist_cnt =3
+let g:netrw_dirhist_1='/storage/home/pg/configs/vim/.vim/bundle/vim-airline'
+let g:netrw_dirhist_2='/storage/home/pg/Development/augur/augur-node/node_modules/augur/build'
+let g:netrw_dirhist_3='/storage/home/pg/Development/augur/augur-node/node_modules/typescript/lib'
