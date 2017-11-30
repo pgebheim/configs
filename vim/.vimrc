@@ -26,6 +26,7 @@ NeoBundle 'ervandew/supertab'
 NeoBundle 'altercation/vim-colors-solarized.git'
 NeoBundle 'gregsexton/gitv.git'
 NeoBundle 'tpope/vim-fugitive'
+NeoBundle 'tpope/vim-dispatch'
 NeoBundle 'mattn/webapi-vim'
 NeoBundle 'mattn/gist-vim'
 NeoBundle 'tpope/vim-characterize'
@@ -36,6 +37,7 @@ NeoBundle 'digitaltoad/vim-jade'
 NeoBundle 'mileszs/ack.vim'
 NeoBundle 'leafgarland/typescript-vim'
 NeoBundle 'jason0x43/vim-js-indent'
+NeoBundle 'editorconfig/editorconfig-vim'
 NeoBundle 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' }
 NeoBundle 'junegunn/fzf.vim'
 NeoBundle 'prettier/vim-prettier', {
@@ -249,6 +251,8 @@ imap <c-x><c-f> <plug>(fzf-complete-path)
 " yank and paste from system buffer
 noremap <leader>p "+p
 noremap <leader>y "+y
+
+let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://.*']
 
 "search options for visual mode (* searches for highlighted text, # backwards)
 vnoremap * y/\V<C-R>=substitute(escape(@@,"/\\"),"\n","\\\\n","ge")<CR><CR>
