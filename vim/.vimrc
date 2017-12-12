@@ -220,10 +220,10 @@ endfunction
 
 if executable('ag')
   let g:ackprg = 'ag --nogroup --nocolor --column'
+  let $FZF_DEFAULT_COMMAND= 'ag -g ""'
 endif
 
 
-let $FZF_DEFAULT_COMMAND= 'ag -g ""'
 nnoremap <silent> <Leader>b :call fzf#run({
 \   'source':  reverse(<sid>buflist()),
 \   'sink':    function('<sid>bufopen'),
@@ -233,6 +233,13 @@ nnoremap <silent> <Leader>b :call fzf#run({
 nnoremap <leader>t :FZF<CR>
 nnoremap <leader>s :Tags<CR>
 nnoremap <leader>cs :BTags<CR>
+nnoremap <leader>fg :GGrep 
+nnoremap <leader>fa :Ack 
+
+" Command for git grep
+" - fzf#vim#grep(command, with_column, [options], [fullscreen])
+command! -bang -nargs=* GGrep
+  \ call fzf#vim#grep('git grep --line-number '.shellescape(<q-args>), 0, <bang>0)
 
 " [Buffers] Jump to the existing window if possible
 let g:fzf_buffers_jump = 1
