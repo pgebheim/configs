@@ -46,9 +46,6 @@
 	branch = yellow
 [gui]
 	recentrepo = /Users/pgebheim/src/dotjs
-[github]
-	user = pgebheim
-	token = fa7889566816289b41a48112b39b8823
 [url "git@github.com:onetaste/"]
 	insteadOf = ot:
 	insteadOf = onetaste:
