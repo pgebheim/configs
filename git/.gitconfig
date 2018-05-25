@@ -1,6 +1,7 @@
 [user]
 	name = Paul Gebheim
 	email = paul@onetaste.us
+	signingkey = 651AC03E
 [core]
 	editor = vim
 	excludesfile = /Users/pgebheim/.gitignore_global
@@ -57,6 +58,8 @@
 	insteadOf = pgebheim:
 [url "git@github.com:AugurProject/"]
   insteadOf = augur:
+[url "git@github.com:ethereumjs/"]
+  insteadOf = ethereumjs:
 [credential]
 	helper = ssh-agent
 [filter "media"]
@@ -72,3 +75,5 @@
 	prompt = false
 [url "ssh://git@heroku.com/"]
 	insteadOf = https://git.heroku.com/
+[grep]
+	excludeDefault = true

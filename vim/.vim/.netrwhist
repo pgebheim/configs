@@ -1,5 +1,7 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =3
-let g:netrw_dirhist_1='/storage/home/pg/configs/vim/.vim/bundle/vim-airline'
-let g:netrw_dirhist_2='/storage/home/pg/Development/augur/augur-node/node_modules/augur/build'
-let g:netrw_dirhist_3='/storage/home/pg/Development/augur/augur-node/node_modules/typescript/lib'
+let g:netrw_dirhist_cnt =5
+let g:netrw_dirhist_1='/mnt/Volume-Home/home/pg/configs/vim/.vim/bundle/yajs.vim/syntax'
+let g:netrw_dirhist_2='/mnt/Volume-Home/home/pg/configs/vim/.vim/bundle/yajs.vim'
+let g:netrw_dirhist_3='/mnt/Volume-Home/home/pg/configs/vim/.vim/bundle/yajs.vim/syntax'
+let g:netrw_dirhist_4='/mnt/Volume-Home/home/pg/configs/vim/.vim/bundle/yajs.vim'
+let g:netrw_dirhist_5='/mnt/Volume-Home/home/pg/configs/vim/.vim/bundle/tsuquyomi/ftplugin/javascript'

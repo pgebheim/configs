@@ -4,6 +4,7 @@
 function! ToggleRelativeNumber()
   if &rnu == 1
     set number
+    set relativenumber!
   else
     set relativenumber
   endif
@@ -12,39 +13,38 @@ endfunction
 
 if has('vim_starting')
   set nocompatible               " Be iMproved
-  set runtimepath+=~/.vim/bundle/neobundle.vim/
 endif
 
-call neobundle#begin(expand('~/.vim/bundle/'))
+call plug#begin('~/.vim/plugged')
 
-" https://github.com/Shougo/neobundle.vim
-"  " Let NeoBundle manage NeoBundle
-NeoBundleFetch 'Shougo/neobundle.vim'
-
-NeoBundle 'christoomey/vim-tmux-navigator'
-NeoBundle 'ervandew/supertab'
-NeoBundle 'altercation/vim-colors-solarized.git'
-NeoBundle 'gregsexton/gitv.git'
-NeoBundle 'tpope/vim-fugitive'
-NeoBundle 'tpope/vim-dispatch'
-NeoBundle 'mattn/webapi-vim'
-NeoBundle 'mattn/gist-vim'
-NeoBundle 'tpope/vim-characterize'
-NeoBundle 'bling/vim-airline'
-NeoBundle 'kchmck/vim-coffee-script.git'
-NeoBundle 'jamessan/vim-gnupg'
-NeoBundle 'digitaltoad/vim-jade'
-NeoBundle 'mileszs/ack.vim'
-NeoBundle 'leafgarland/typescript-vim'
-NeoBundle 'jason0x43/vim-js-indent'
-NeoBundle 'editorconfig/editorconfig-vim'
-NeoBundle 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' }
-NeoBundle 'junegunn/fzf.vim'
-NeoBundle 'prettier/vim-prettier', {
+Plug 'christoomey/vim-tmux-navigator'
+Plug 'ervandew/supertab'
+Plug 'altercation/vim-colors-solarized.git'
+Plug 'gregsexton/gitv.git'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-dispatch'
+Plug 'radenling/vim-dispatch-neovim'
+Plug 'mattn/webapi-vim'
+Plug 'mattn/gist-vim'
+Plug 'tpope/vim-characterize'
+Plug 'bling/vim-airline'
+Plug 'kchmck/vim-coffee-script.git'
+Plug 'jamessan/vim-gnupg'
+Plug 'digitaltoad/vim-jade'
+Plug 'janko-m/vim-test'
+Plug 'mileszs/ack.vim'
+"Plug 'leafgarland/typescript-vim'
+Plug 'HerringtonDarkholme/yats.vim'
+Plug 'pangloss/vim-javascript'
+Plug 'jason0x43/vim-js-indent'
+Plug 'editorconfig/editorconfig-vim'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' }
+Plug 'junegunn/fzf.vim'
+Plug 'prettier/vim-prettier', {
   \ 'do': 'yarn install',
   \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql'] }
 
-NeoBundle 'Shougo/vimproc.vim', {
+Plug 'Shougo/vimproc.vim', {
       \ 'build' : {
       \     'windows' : 'tools\\update-dll-mingw',
       \     'cygwin' : 'make -f make_cygwin.mak',
@@ -54,10 +54,21 @@ NeoBundle 'Shougo/vimproc.vim', {
       \    },
       \ }
 
-NeoBundle 'Quramy/tsuquyomi'
+Plug 'autozimu/LanguageClient-neovim', {
+    \ 'branch': 'next',
+    \ 'do': 'bash install.sh',
+    \ }
 
-call neobundle#end()
-NeoBundleCheck
+if has("nvim")
+  Plug 'Shougo/deoplete.nvim'
+endif
+Plug 'mhartington/nvim-typescript'
+
+
+" Enable deoplete at startup
+let g:deoplete#enable_at_startup = 1
+
+call plug#end()
 
 " =================== Plugin Config ================
 let do_syntax_sel_menu = 1 " Show the languages in the syntax menu by default
@@ -129,7 +140,9 @@ else
     colorscheme torte
 endif
 
-
+if has('nvim')
+  tmap <C-o> <C-\><C-n>
+end
 
 
 " Keep the cursor at the pre-editing positing when using .
@@ -173,13 +186,24 @@ augroup filetypes
   au Filetype gitcommit set spell textwidth=72
 
   " Clojure
-  au FileType clj let vimclojure#NailgunClient = "~/.vim/vimclojure/ng"
-  au FileType clj let g:clj_want_gorilla = 1
-  au FileType clj let g:clj_rainbow_paren = 1
-  au FileType clj let g:clj_highlight_builtins = 1
-  au FileType clj let g:clj_highlight_contrib = 1
+  function! SetClojureOptions()
+    let vimclojure#NailgunClient = "~/.vim/vimclojure/ng"
+    let g:clj_want_gorilla = 1
+    let g:clj_rainbow_paren = 1
+    let g:clj_highlight_builtins = 1
+    let g:clj_highlight_contrib = 1
+  endfunction
+  au FileType clj call SetClojureOptions()
 
   au FileType fear inoremap <buffer> <CR> <CR>I have fear that
+
+
+  function! SetEMCAOptions()
+    nmap <buffer> <Leader>e <Plug>(TSRename)
+    set makeprg=npm\ run\ build
+  endfunction
+  au FileType typescript,javascript call SetEMCAOptions()
+
 augroup END
 
 let python_highlight_all=1
@@ -236,6 +260,17 @@ nnoremap <leader>cs :BTags<CR>
 nnoremap <leader>fg :GGrep 
 nnoremap <leader>fa :Ack 
 
+let test#strategy = "neovim"
+nnoremap <Leader>af :TestFile<CR>
+nnoremap <Leader>an :TestNearest<CR>
+nnoremap <Leader>al :TestLast<CR>
+nnoremap <Leader>as :TestSuite<CR>
+nnoremap <Leader>av :TestVisit<CR>
+
+nnoremap <Leader>m :Make<CR>
+
+au filetype typescript,javascript nnoremap <leader>fs :TSSearchFZF 
+
 " Command for git grep
 " - fzf#vim#grep(command, with_column, [options], [fullscreen])
 command! -bang -nargs=* GGrep
@@ -260,6 +295,7 @@ noremap <leader>p "+p
 noremap <leader>y "+y
 
 let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://.*']
+let g:tsuquyomi_javascript_support = 1
 
 "search options for visual mode (* searches for highlighted text, # backwards)
 vnoremap * y/\V<C-R>=substitute(escape(@@,"/\\"),"\n","\\\\n","ge")<CR><CR>
@@ -280,6 +316,18 @@ set statusline+=%-14.(%l,%c%V%)\ %<%P        " offset
 
 
 let g:airline#extensions#tabline#enabled = 1
+let g:LanguageClient_diagnosticsList = "Location"
+
+let g:LanguageClient_selectionUI = "fzf"
+let g:LanguageClient_serverCommands = {
+    \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
+    \ 'javascript': ['javascript-typescript-stdio'],
+    \ 'typescript': ['javascript-typescript-stdio'],
+    \ }
+
+nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
+nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
+nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
 
 if has("autocmd")
   augroup myvimrchooks
