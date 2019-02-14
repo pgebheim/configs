@@ -69,8 +69,6 @@ source $ZSH/oh-my-zsh.sh
 # Preferred editor for local and remote sessions
 export EDITOR='vim'
 
-export HOMEBREW_GITHUB_API_TOKEN="b0ed314cd9e04f5f091b7ae81840e63f4bdae4f0"
-
 POWERLEVEL9K_TIME_FORMAT="%D{%H:%M}"
 POWERLEVEL9K_OS_ICON_BACKGROUND="blue"
 POWERLEVEL9K_OS_ICON_FOREGROUND="white"
