@@ -1,7 +1,8 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =5
+let g:netrw_dirhist_cnt =6
 let g:netrw_dirhist_1='/mnt/Volume-Home/home/pg/configs/vim/.vim/bundle/yajs.vim/syntax'
 let g:netrw_dirhist_2='/mnt/Volume-Home/home/pg/configs/vim/.vim/bundle/yajs.vim'
 let g:netrw_dirhist_3='/mnt/Volume-Home/home/pg/configs/vim/.vim/bundle/yajs.vim/syntax'
 let g:netrw_dirhist_4='/mnt/Volume-Home/home/pg/configs/vim/.vim/bundle/yajs.vim'
 let g:netrw_dirhist_5='/mnt/Volume-Home/home/pg/configs/vim/.vim/bundle/tsuquyomi/ftplugin/javascript'
+let g:netrw_dirhist_6='/home/pg'

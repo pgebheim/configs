@@ -1,7 +1,7 @@
 [user]
 	name = Paul Gebheim
 	email = paul@onetaste.us
-	signingkey = 651AC03E
+	signingkey = E5E02393651AC03E
 [core]
 	editor = vim
 	excludesfile = /Users/pgebheim/.gitignore_global
@@ -17,6 +17,7 @@
 	w = whatchanged
 	grep = grep -n
 	d = difftool
+  mine = issue -a pgebheim
 [diff]
 	mnemonicprefix = true
 	tool = vimdiff
@@ -74,3 +75,7 @@
 	insteadOf = https://git.heroku.com/
 [grep]
 	excludeDefault = true
+[github]
+	user = pgebheim
+[ghi]
+	token = 7a90b6df1db7216d9d8d69ed1f41773a80039f0e

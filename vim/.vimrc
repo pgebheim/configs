@@ -11,6 +11,8 @@ function! ToggleRelativeNumber()
 endfunction
 """"""""""""""""""""
 
+"set cpoptions=ces$
+
 if has('vim_starting')
   set nocompatible               " Be iMproved
 endif
@@ -18,22 +20,23 @@ endif
 call plug#begin('~/.vim/plugged')
 
 Plug 'christoomey/vim-tmux-navigator'
+Plug 'jiangmiao/auto-pairs'
 Plug 'ervandew/supertab'
-Plug 'altercation/vim-colors-solarized.git'
-Plug 'gregsexton/gitv.git'
+Plug 'altercation/vim-colors-solarized'
 Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-rhubarb'
 Plug 'tpope/vim-dispatch'
-Plug 'radenling/vim-dispatch-neovim'
+Plug 'tpope/vim-surround'
 Plug 'mattn/webapi-vim'
 Plug 'mattn/gist-vim'
 Plug 'tpope/vim-characterize'
 Plug 'bling/vim-airline'
-Plug 'kchmck/vim-coffee-script.git'
+Plug 'scrooloose/nerdtree'
+Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'jamessan/vim-gnupg'
 Plug 'digitaltoad/vim-jade'
 Plug 'janko-m/vim-test'
 Plug 'mileszs/ack.vim'
-"Plug 'leafgarland/typescript-vim'
 Plug 'HerringtonDarkholme/yats.vim'
 Plug 'pangloss/vim-javascript'
 Plug 'jason0x43/vim-js-indent'
@@ -54,15 +57,18 @@ Plug 'Shougo/vimproc.vim', {
       \    },
       \ }
 
-Plug 'autozimu/LanguageClient-neovim', {
+if has("nvim")
+  Plug 'radenling/vim-dispatch-neovim'
+  Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
+  let $NVIM_NODE_LOG_FILE='/tmp/nvim-node.log'
+  let $NVIM_NODE_LOG_LEVEL='info'
+  Plug 'autozimu/LanguageClient-neovim', {
     \ 'branch': 'next',
     \ 'do': 'bash install.sh',
     \ }
 
-if has("nvim")
-  Plug 'Shougo/deoplete.nvim'
+  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 endif
-Plug 'mhartington/nvim-typescript'
 
 
 " Enable deoplete at startup
@@ -261,6 +267,7 @@ nnoremap <leader>fg :GGrep
 nnoremap <leader>fa :Ack 
 
 let test#strategy = "neovim"
+let g:test#javascript#jest#file_pattern = '\v(__tests__|spec|test)/.*\.(js|jsx|coffee|ts|tsx)$'
 nnoremap <Leader>af :TestFile<CR>
 nnoremap <Leader>an :TestNearest<CR>
 nnoremap <Leader>al :TestLast<CR>
@@ -290,12 +297,15 @@ let g:fzf_tags_command = 'ctags -R'
 let g:fzf_commands_expect = 'alt-enter,ctrl-x'
 imap <c-x><c-f> <plug>(fzf-complete-path)
 
+if has("nvim")
+  set inccommand=nosplit
+endif
+
 " yank and paste from system buffer
 noremap <leader>p "+p
 noremap <leader>y "+y
 
 let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://.*']
-let g:tsuquyomi_javascript_support = 1
 
 "search options for visual mode (* searches for highlighted text, # backwards)
 vnoremap * y/\V<C-R>=substitute(escape(@@,"/\\"),"\n","\\\\n","ge")<CR><CR>
@@ -317,7 +327,6 @@ set statusline+=%-14.(%l,%c%V%)\ %<%P        " offset
 
 let g:airline#extensions#tabline#enabled = 1
 let g:LanguageClient_diagnosticsList = "Location"
-
 let g:LanguageClient_selectionUI = "fzf"
 let g:LanguageClient_serverCommands = {
     \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
@@ -325,8 +334,10 @@ let g:LanguageClient_serverCommands = {
     \ 'typescript': ['javascript-typescript-stdio'],
     \ }
 
+nnoremap <silent> <leader>k LanguageClient_contextMenu()<CR>
 nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
 nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
+nnoremap <silent> gr :call LanguageClient#textDocument_references()<CR>
 nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
 
 if has("autocmd")
@@ -335,3 +346,18 @@ if has("autocmd")
     autocmd bufwritepost .vimrc source %
   augroup END
 endif
+
+
+" TABSSSS
+" Go to tab by number
+noremap <leader>1 1gt
+noremap <leader>2 2gt
+noremap <leader>3 3gt
+noremap <leader>4 4gt
+noremap <leader>5 5gt
+noremap <leader>6 6gt
+noremap <leader>7 7gt
+noremap <leader>8 8gt
+noremap <leader>9 9gt
+noremap <leader>0 :tablast<cr>
+
