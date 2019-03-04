@@ -1,6 +1,6 @@
 [user]
 	name = Paul Gebheim
-	email = paul@onetaste.us
+	email = pgebheim@gmail.com
 	signingkey = E5E02393651AC03E
 [core]
 	editor = vim
@@ -45,11 +45,6 @@
 	untracked = red
 [color "sh"]
 	branch = yellow
-[gui]
-	recentrepo = /Users/pgebheim/src/dotjs
-[url "git@github.com:onetaste/"]
-	insteadOf = ot:
-	insteadOf = onetaste:
 [url "git@github.com:pgebheim/"]
 	insteadOf = me:
 	insteadOf = pg:
@@ -63,12 +58,6 @@
 [filter "media"]
 	clean = git-media-clean %f
 	smudge = git-media-smudge %f
-[difftool "sourcetree"]
-	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path = 
-[mergetool "sourcetree"]
-	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-	trustExitCode = true
 [difftool]
 	prompt = false
 [url "ssh://git@heroku.com/"]
@@ -77,5 +66,3 @@
 	excludeDefault = true
 [github]
 	user = pgebheim
-[ghi]
-	token = 7a90b6df1db7216d9d8d69ed1f41773a80039f0e
