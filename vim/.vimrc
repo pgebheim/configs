@@ -29,6 +29,7 @@ Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-surround'
 Plug 'mattn/webapi-vim'
 Plug 'mattn/gist-vim'
+Plug 'hashivim/vim-terraform'
 Plug 'tpope/vim-characterize'
 Plug 'bling/vim-airline'
 Plug 'scrooloose/nerdtree'
@@ -60,19 +61,19 @@ Plug 'Shougo/vimproc.vim', {
 if has("nvim")
   Plug 'radenling/vim-dispatch-neovim'
   Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
+  "Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install()}}
   let $NVIM_NODE_LOG_FILE='/tmp/nvim-node.log'
-  let $NVIM_NODE_LOG_LEVEL='info'
-  Plug 'autozimu/LanguageClient-neovim', {
-    \ 'branch': 'next',
-    \ 'do': 'bash install.sh',
-    \ }
+  "let $NVIM_NODE_LOG_LEVEL='info'
+  "Plug 'autozimu/LanguageClient-neovim', {
+  "  \ 'branch': 'next',
+  "  \ 'do': 'bash install.sh',
+  "  \ }
 
   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+  let g:deoplete#enable_at_startup = 1
 endif
 
 
-" Enable deoplete at startup
-let g:deoplete#enable_at_startup = 1
 
 call plug#end()
 
@@ -101,6 +102,7 @@ set noswapfile
 set nobackup
 
 set wildmenu
+set wildmode=longest:list,full
 set wildignore+=*.o,*.obj,.git,*.swp,*.pyc
 set wildignore+=*vim/backups*
 set wildignore+=*sass-cache*
@@ -143,7 +145,8 @@ elseif ($COLORFGBG) == "12;8"  " solarized theme
   colorscheme solarized
   let g:airline_theme='solarized'
 else
-    colorscheme torte
+    colorscheme desert
+    let g:airline_theme='dark'
 endif
 
 if has('nvim')
@@ -179,6 +182,7 @@ augroup END
 
 " Make SuperTab use OmniCompletion by default for programming languages that
 " we know about
+let g:SuperTabDefaultCompletionType = "<c-n>"
 
 augroup filetypes
   autocmd!
@@ -191,26 +195,13 @@ augroup filetypes
   au FileType htmldjango set filetype=html
   au Filetype gitcommit set spell textwidth=72
 
-  " Clojure
-  function! SetClojureOptions()
-    let vimclojure#NailgunClient = "~/.vim/vimclojure/ng"
-    let g:clj_want_gorilla = 1
-    let g:clj_rainbow_paren = 1
-    let g:clj_highlight_builtins = 1
-    let g:clj_highlight_contrib = 1
-  endfunction
-  au FileType clj call SetClojureOptions()
-
-  au FileType fear inoremap <buffer> <CR> <CR>I have fear that
-
-
   function! SetEMCAOptions()
     nmap <buffer> <Leader>e <Plug>(TSRename)
     set makeprg=npm\ run\ build
   endfunction
   au FileType typescript,javascript call SetEMCAOptions()
 
-augroup END
+augroup end
 
 let python_highlight_all=1
 
@@ -219,13 +210,19 @@ if version >= 703
   set undofile
 endif
 
+set completeopt=longest,menuone
+
+" Select item, don't inserty newline (acts likt <C-Y>)
+inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+inoremap <expr> <C-n> pumvisible() ? '<C-n>' : '<C-n><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
+inoremap <expr> <M-,> pumvisible() ? '<C-n>' : '<C-x><C-o><C-n><C-p><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
 
 " Syntax Dependent Folding for C/C++/Java/(C#)
 set nofoldenable
 augroup folding
   au filetype stylus,jade set fdm=indent
   au filetype c,cpp set fdm=marker
-augroup END
+augroup end
 
 set titlestring=%t%(\ %M%)%(\ (%{expand(\"%:~:.:h\")})%)%(\ %a%)
 set title
@@ -248,7 +245,10 @@ function! s:bufopen(e)
   execute 'buffer' matchstr(a:e, '^[ 0-9]*')
 endfunction
 
-if executable('ag')
+if executable('rg')
+  let g:ackprg = 'rg --column'
+  let $FZF_DEFAULT_COMMAND= 'rg --files -S'
+elseif executable('ag')
   let g:ackprg = 'ag --nogroup --nocolor --column'
   let $FZF_DEFAULT_COMMAND= 'ag -g ""'
 endif
@@ -267,7 +267,7 @@ nnoremap <leader>fg :GGrep
 nnoremap <leader>fa :Ack 
 
 let test#strategy = "neovim"
-let g:test#javascript#jest#file_pattern = '\v(__tests__|spec|test)/.*\.(js|jsx|coffee|ts|tsx)$'
+let g:test#javascript#jest#file_pattern = '\v((__tests__|spec|test)/.*\.(js|jsx|coffee|ts|tsx))|(.*\.test\.(js|jsx|coffee|ts|tsx))$'
 nnoremap <Leader>af :TestFile<CR>
 nnoremap <Leader>an :TestNearest<CR>
 nnoremap <Leader>al :TestLast<CR>
@@ -361,3 +361,6 @@ noremap <leader>8 8gt
 noremap <leader>9 9gt
 noremap <leader>0 :tablast<cr>
 
+
+hi DiffText   cterm=none ctermfg=Black ctermbg=Red gui=none guifg=Black guibg=Red
+hi DiffChange cterm=none ctermfg=Black ctermbg=LightMagenta gui=none guifg=Black guibg=LightMagenta
