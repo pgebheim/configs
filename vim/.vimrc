@@ -20,6 +20,7 @@ endif
 call plug#begin('~/.vim/plugged')
 
 Plug 'christoomey/vim-tmux-navigator'
+let g:AutoPairsFlyMode = 0
 Plug 'jiangmiao/auto-pairs'
 Plug 'ervandew/supertab'
 Plug 'altercation/vim-colors-solarized'
